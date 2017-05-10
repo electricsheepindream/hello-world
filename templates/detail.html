@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="col-md-6" id="detail_left">
+    <img src =' {{ instance.image.url }}' style="margin-top: 60px; width:500px;height: 700px" >
+    </div>
+    <div class="col-lg-6" style="margin-top: 60px" id="detail_right">
+    <h1 style="font-family: 'Dancing Script', cursive"> Title: {{ instance.title }}</h1>
+    <h3 style="font-family: 'Concert One', cursive;">Artist: {{ instance.artist }}</h3>
+    <br>
+    <br>
+    {% if instance.song_set.all %}
+            {% for obj in instance.song_set.all %}
+            <div class="row">
+            <div class="col-md-4">
+            <h6> {{ obj.title }}.{{ obj.artist }}</h6>
+            </div>
+            <div class="col-md-4">
+            <audio src="{{ obj.song.url }}"  controls="controls" style="display: inline" preload="none"></audio>
+            </div>
+            <div class="col-md-3">
+            <a  class="btn btn-default" href="{% url 'music:song_delete' obj.id %}" style="margin-left: 90px">delete</a>
+            </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <a href="{% url 'music:song_create' instance.id%}" type="button" class="btn btn-default" id="addsong" style="margin-left: 30px">Add</a>
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-offset-2">
+                <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

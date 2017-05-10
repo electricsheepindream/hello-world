@@ -1,0 +1,67 @@
+
+#navigation{
+    display: block;
+    padding: 0;
+    -webkit-box-orient: horizontal;
+    height: 100px;
+    margin: 0 auto;
+    background: white url("images/nav.jpg");
+    opacity: .9;
+}
+
+#logo{
+    width: 180px;
+    height: 100px;
+    border: 3px solid black;
+    -webkit-transition: opacity 2s;
+    background: black;
+    opacity: .4;
+}
+
+#logo:hover{
+    opacity: .1;
+    }
+
+#search{
+    position: relative;
+    left: 700px;
+    top:-20px;
+    width: 200px;
+    height: 30px;
+    -webkit-border-radius: 8px;
+}
+
+#login{
+    -webkit-box-align: end;
+    border: 3px solid gold;
+    position: relative;
+    left: 730px;
+    top: -20px;
+}
+#home{
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    -webkit-transition: opacity 2s;
+    background:-webkit-radial-gradient(white,red);
+    position: absolute;
+    left: 630px;
+    top: 50px;
+}
+#home:hover{
+    opacity: 1;
+}
+#logout{
+    position: relative;
+    left: 750px;
+    top: -20px;
+}
+
+#regist{
+    height: 30px;
+}
+
+
+
+
+

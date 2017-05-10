@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row" style="margin-top: 60px">
+            {% for obj in query %}
+                <div class="col-md-4" style="padding-top: 20px">
+                    <a href="{% url 'music:Album_detail' obj.id%}"><img src="{{ obj.image.url }}" style="width: 200px;height: 300px;"id="img"></a>
+                    <h3 style="font-family: 'Dancing Script', cursive">{{ obj.title }}---{{ obj.artist }}</h3>
+                    <a href="{% url 'music:album_update' obj.id %}" class="btn btn-success">update</a>
+                    <a href="{% url 'music:album_delete' obj.id %}" class="btn btn-warning">delete</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="pagination" style="margin-left: 500px">
+    <span class="step-links">
+        {% if query.has_previous %}
+            <a href="?page={{ query.previous_page_number }}" class="btn btn-default">previous</a>
+        {% endif %}
+
+       {% for i in page_set %}
+            <a href="?page={{ i }}" class="btn btn-default">{{ i }}</a>
+       {% endfor %}
+
+        {% if query.has_next %}
+            <a href="?page={{ query.next_page_number }}" class="btn btn-default">next</a>
+        {% endif %}
+    </span>
+
+    </div>
+{% endblock %}

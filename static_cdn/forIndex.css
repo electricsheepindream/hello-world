@@ -1,0 +1,14 @@
+body{
+    background:  url('images/back.jpg');
+}
+
+#navigation{
+    display: block;
+    margin: 0;
+    padding: 0;
+    -webkit-box-orient: horizontal;
+    width: 1000px;
+    height: 50px;
+    border: 2px solid blue;
+    background-color: blue;
+}
