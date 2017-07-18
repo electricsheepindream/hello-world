@@ -25,7 +25,7 @@ SECRET_KEY = '@ia3453^$-34%9a+=3v-h=9sing-axr3g3e-_os$+-z@muoh(a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'music.apps.MusicConfig',
-    'crispy_forms'
+    'crispy_forms',
+    'accounts',
+    'comments',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 ACCOUNT_ACTIVATION_DAYS = 7
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'electricsheepindream@gmail.com'
+EMAIL_HOST_PASSWORD = '929507614'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

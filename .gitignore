@@ -1,7 +1,40 @@
+#buildout's specific
+.installed.cfg
+eggs/*
+bin/*
+build/*
+dist/*
+develop-eggs/*
+parts/*
+downloads/*
+
+#egg's specific
+*.egg-info
+
+#defaults
 *.pyc
-*~
+*.pyo
 __pycache__
-myvenv
+
+#temp file
+tempfile
+*.swp
+
+# testing
+.tox/
+
+# coverage
+.coverage
+htmlcov
+_build
+
+# OSX
+*.DS_Store
+
+# editors
+.project
+.pydevproject
+.settings/
+*.idea
+virtualenv/*
 db.sqlite3
-/static
-.DS_Store

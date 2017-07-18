@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block body %}
+    <div class="container">
+    <div class="row">
     <div class="col-md-6" id="detail_left">
     <img src =' {{ instance.image.url }}' style="margin-top: 60px; width:500px;height: 700px" >
     </div>
@@ -28,13 +31,36 @@
     {% if error_message %}
     <p>{{ error_message }}</p>
     {% endif %}
-    <div class="container">
+    </div>
+    {% for comment in main_comments %}
         <div class="row">
-            <div class="col-md-12 col-lg-offset-2">
-                <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+            <div class="col-md-10 col-md-offset-1">
+             <h3>{{ comment.content }}</h3>
+                <P>{{ comment.user }}</P>
+                <p>{{ comment.time }}</p>
+                {% for child in comment.children %}
+                    <hr>
+                    {{ child.content }}<br>
+                {% endfor %}
+                <a href="#" class="reply">reply</a>
+                <div class="reply-btn" style="display: none">
+
+                <form method="post" action="." name="main">{% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <input type="hidden" name="com_id" value="{{ comment.id }}">
+                    <input type="submit" value="replay" class="btn btn-success">
+                </form>
+                <hr>
             </div>
         </div>
+    {% endfor %}
+        </div>
+    {% if request.user.is_authenticated %}
+    <form method="post" action="." name="main">{% csrf_token %}
+        {{ comment_form|crispy }}
+        <input type="submit" value="public" class="btn btn-success">
+    </form>
+    {% endif %}
     </div>
-
 
 {% endblock %}

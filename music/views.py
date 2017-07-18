@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from .forms import AlbumForms, SongForms, UserForm, LoginForm
 from .models import Album, Song
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from comments.models import Comments
+from comments.forms import CommentsForm
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 
 def index(request):
@@ -78,9 +82,45 @@ def album_delete(request, album_id=None):
 def detail(request, album_id):
     instance = get_object_or_404(Album, id=album_id)
     song = instance.song_set.all()
+    initial_data = {
+        'content_type': ContentType.objects.get_for_model(Album),
+        'object_id': instance.id
+    }
+    comment_form = CommentsForm(request.POST or None, initial=initial_data)
+    if comment_form.is_valid():
+        c_type = comment_form.cleaned_data.get('content_type')
+        content_type = ContentType.objects.get(model=c_type)
+        parent_obj = None
+        try:
+            parent_id = int(request.POST.get('com_id'))
+        except:
+            parent_id = None
+        if parent_id:
+            parent_qs = Comments.objects.filter(id=parent_id)
+
+            if parent_qs.exists() and parent_qs.count() == 1:
+                parent_obj = parent_qs.first()
+        object_id = comment_form.cleaned_data.get('object_id')
+        content = comment_form.cleaned_data.get('content')
+        Comments.objects.get_or_create(
+            user=request.user,
+            content_type=content_type,
+            object_id=object_id,
+            content=content,
+            parent=parent_obj,
+        )
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    content_type = ContentType.objects.get_for_model(Album)
+    obj_id = instance.id
+    comments = Comments.objects.filter(content_type=content_type, object_id=obj_id)
+    main_comments = comments.filter(parent=None)
     context = {
         "song": song,
-        "instance": instance
+        "instance": instance,
+        "comments": comments,
+        "comment_form": comment_form,
+        "main_comments": main_comments,
     }
     return render(request, 'detail.html', context)
 
@@ -131,6 +171,13 @@ def user_create(request):
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
         user = User.objects.create_user(username, email, password)
+        send_mail(
+            'Subject here',
+            'Here is the message.',
+            'electricsheepindream@gmail.com',
+            [email],
+            fail_silently=False,
+        )
         user.save()
         return redirect("music:index")
     context = {
