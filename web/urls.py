@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from werobot.contrib.django import make_view
+from music import robot
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,6 +26,8 @@ urlpatterns = [
     url(r'^music/', include('music.urls')),
 
     url(r'^accounts/', include('registration.backends.hmac.urls')),
+
+    url(r'^robot/', make_view(robot))
 ]
 
 if settings.DEBUG:
