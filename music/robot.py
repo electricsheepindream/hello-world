@@ -10,4 +10,4 @@ robot = WeRoBot(enable_session=False,
 
 @robot.handler
 def hello(message):
-    return 'hello world'
+    return '傻瓜'
