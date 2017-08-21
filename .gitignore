@@ -40,3 +40,4 @@ virtualenv/*
 db.sqlite3
 venv/*
 .idea/workspace.xml
+*.pyc
